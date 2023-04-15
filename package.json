@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-   "dev": "nodemon index.js"
+    "dev": "nodemon index.js"
   },
   "author": "Aleksandr Hnut",
   "license": "ISC",
@@ -18,10 +18,10 @@
   },
   "devDependencies": {
     "eslint": "^8.38.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-security": "^1.7.1",
     "nodemon": "^2.0.22",
     "prettier": "^2.8.7"
   }

@@ -1,11 +1,24 @@
-const express = require('express')
-const app = express()
-const port = 3000
+require('dotenv').config();
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+const express = require('express');
+const sequelize = require('./db');
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+const app = express();
+const port = process.env.PORT || 3000;
+
+const start = async () => {
+	try {
+		await sequelize.authenticate();
+		await sequelize.sync();
+	} catch (e) {
+		console.log(e);
+	}
+};
+
+start()
+	.then(() => {
+		console.log(`server start on port ${port}`);
+	})
+	.catch((err) => {
+		console.error('Unable to start server:', err);
+	});
