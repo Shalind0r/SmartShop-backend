@@ -1,7 +1,7 @@
 const sequelize = require('../db');
 const { DataTypes } = require('sequelize');
 
-const user = sequelize.define('user', {
+const User = sequelize.define('user', {
 	id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
@@ -10,24 +10,31 @@ const user = sequelize.define('user', {
 	email: {
 		type: DataTypes.STRING,
 		unique: true,
+		allowNull: false,
 	},
-	password: { type: DataTypes.STRING },
+	password: {
+		type: DataTypes.STRING,
+		allowNull: false,
+	},
 });
-const basket = sequelize.define('basket', {
+
+const Basket = sequelize.define('basket', {
 	id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
 		autoIncrement: true,
 	},
 });
-const basketProduct = sequelize.define('basketProduct', {
+
+const BasketProduct = sequelize.define('basketProduct', {
 	id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
 		autoIncrement: true,
 	},
 });
-const product = sequelize.define('product', {
+
+const Product = sequelize.define('product', {
 	id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
@@ -35,7 +42,6 @@ const product = sequelize.define('product', {
 	},
 	name: {
 		type: DataTypes.STRING,
-		primaryKey: true,
 		allowNull: false,
 	},
 	price: {
@@ -51,7 +57,8 @@ const product = sequelize.define('product', {
 		defaultValue: 0,
 	},
 });
-const type = sequelize.define('type', {
+
+const Categories = sequelize.define('categories', {
 	id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
@@ -63,7 +70,8 @@ const type = sequelize.define('type', {
 		allowNull: false,
 	},
 });
-const brand = sequelize.define('brand', {
+
+const CategoriesGroup = sequelize.define('categoriesGroup', {
 	id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
@@ -75,7 +83,38 @@ const brand = sequelize.define('brand', {
 		allowNull: false,
 	},
 });
-const rating = sequelize.define('rating', {
+
+const SubCategories = sequelize.define('subCategories', {
+	id: {
+		type: DataTypes.INTEGER,
+		primaryKey: true,
+		autoIncrement: true,
+	},
+	name: {
+		type: DataTypes.STRING,
+		unique: true,
+		allowNull: false,
+	},
+});
+
+const Models = sequelize.define('models', {
+	id: {
+		type: DataTypes.INTEGER,
+		primaryKey: true,
+		autoIncrement: true,
+	},
+	name: {
+		type: DataTypes.STRING,
+		unique: true,
+		allowNull: false,
+	},
+	img: {
+		type: DataTypes.STRING,
+		allowNull: false,
+	},
+});
+
+const Rating = sequelize.define('rating', {
 	id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
@@ -86,7 +125,8 @@ const rating = sequelize.define('rating', {
 		allowNull: false,
 	},
 });
-const productInfo = sequelize.define('productInfo', {
+
+const ProductInfo = sequelize.define('productInfo', {
 	id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
@@ -101,48 +141,35 @@ const productInfo = sequelize.define('productInfo', {
 		allowNull: false,
 	},
 });
-const typeBrand = sequelize.define('typeBrand', {
-	id: {
-		type: DataTypes.INTEGER,
-		primaryKey: true,
-		autoIncrement: true,
-	},
-});
 
-user.hasOne(basket);
-basket.belongsTo(user);
-
-user.hasMany(rating);
-rating.belongsTo(user);
-
-basket.hasMany(basketProduct);
-basketProduct.belongsTo(basket);
-
-type.hasMany(product);
-product.belongsTo(type);
-
-brand.hasMany(product);
-product.belongsTo(brand);
-
-product.hasMany(rating);
-rating.belongsTo(product);
-
-product.hasMany(basketProduct);
-basketProduct.belongsTo(product);
-
-product.hasMany(productInfo);
-productInfo.belongsTo(product);
-
-type.belongsToMany(brand, { through: typeBrand });
-brand.belongsToMany(type, { through: typeBrand });
+User.hasOne(Basket);
+Basket.belongsTo(User);
+User.hasMany(Rating);
+Rating.belongsTo(User);
+Basket.hasMany(BasketProduct);
+BasketProduct.belongsTo(Basket);
+Categories.hasMany(CategoriesGroup);
+CategoriesGroup.belongsTo(Categories);
+CategoriesGroup.hasMany(SubCategories);
+SubCategories.belongsTo(CategoriesGroup);
+SubCategories.hasMany(Models);
+Models.belongsTo(SubCategories);
+Product.hasMany(Rating);
+Rating.belongsTo(Product);
+Product.hasMany(BasketProduct);
+BasketProduct.belongsTo(Product);
+Product.hasMany(ProductInfo);
+ProductInfo.belongsTo(Product);
 
 module.exports = {
-	user,
-	basket,
-	basketProduct,
-	product,
-	type,
-	brand,
-	rating,
-	productInfo,
+	User,
+	Basket,
+	BasketProduct,
+	Product,
+	Categories,
+	CategoriesGroup,
+	SubCategories,
+	Models,
+	Rating,
+	ProductInfo,
 };
