@@ -1,8 +1,19 @@
 const { Categories, CategoriesGroup, SubCategories } = require('../models/models');
 
 class CatalogController {
-	async getAll(req, res) {
+	async getAllCategories(req, res) {
 		const categories = await Categories.findAll({
+			attributes: {
+				exclude: ['createdAt', 'updatedAt'],
+			},
+		});
+		return res.json(categories);
+	}
+
+	async getCategory(req, res) {
+		const id = req.params.id;
+		const category = await Categories.findAll({
+			where: { id },
 			attributes: {
 				exclude: ['createdAt', 'updatedAt'],
 			},
@@ -19,7 +30,7 @@ class CatalogController {
 				},
 			},
 		});
-		return res.json(categories);
+		return res.json(category);
 	}
 }
 
