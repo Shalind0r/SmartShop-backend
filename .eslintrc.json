@@ -3,8 +3,15 @@
 		"browser": true,
 		"es2021": true
 	},
-	"extends": ["plugin:n/recommended","plugin:security/recommended","prettier"],
-	"plugins": ["promise","prettier"],
+	"extends": [
+		"plugin:n/recommended",
+		"plugin:security/recommended",
+		"prettier"
+	],
+	"plugins": [
+		"promise",
+		"prettier"
+	],
 	"overrides": [],
 	"parserOptions": {
 		"ecmaVersion": "latest",
